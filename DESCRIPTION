@@ -14,5 +14,7 @@ Suggests:
 Imports: 
     lifecycle,
     ggplot2,
-    tibble
+    tibble,
+    mlrMBO,
+    ParamHelpers
 RdMacros: lifecycle
