@@ -1,3 +1,6 @@
+#' @import ParamHelpers
+#' @import mlrMBO
+#' @import smoof
 #' @export
 auto_catboost_reg <- function(data, 
                            label_col_name = NULL, 
