@@ -4,7 +4,10 @@
 \title{
 Automatic model tununig using Bayesian optimazation}
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+
+\Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
+
+Automatic model tununig using Bayesian optimazation
 }
 \usage{
 auto_catboost_reg(data, label_col_name = NULL, cat_features = NULL, has_time = FALSE,
@@ -84,7 +87,7 @@ aximum iteration for Bayesian optimazation.Default value: 10
 %% ~put references to the literature/web site here ~
 }
 \author{
-Res Akay
+Resul Akay
 }
 \note{
 %%  ~~further notes~~

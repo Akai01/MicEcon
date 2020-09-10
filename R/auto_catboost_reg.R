@@ -1,3 +1,4 @@
+#' @export
 auto_catboost_reg <- function(data, 
                            label_col_name = NULL, 
                            cat_features = NULL,

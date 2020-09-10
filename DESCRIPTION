@@ -1,11 +1,18 @@
 Package: MicEcon
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Automatic machine learning tools for microeconomic analysis
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Author: Resul Akay
+Maintainer: Resul Akay <resulakay1@gmail.com>
+Description: Automatic machine learning tools for microeconomic analysis 
+License: MIT
 Encoding: UTF-8
 LazyData: true
+RoxygenNote: 7.1.1
+Suggests: 
+    testthat
+Imports: 
+    lifecycle,
+    ggplot2,
+    tibble
+RdMacros: lifecycle
