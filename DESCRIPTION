@@ -8,7 +8,7 @@ Authors@R:
            email = "resulakay1@gmail.com",
            comment = c(ORCID = "YOUR-ORCID-ID"))
 Description: Automatic machine learning tools for microeconomic analysis
-License: MIT + file LICENSE
+License: Apache License (>= 2.0)
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
