@@ -1,22 +1,19 @@
 Package: MicEcon
-Title: Automatic machine learning tools for microeconomic analysis
-Version: 0.0.1.0
+Title: Automatic hyperparameter selection of the catboost mode
+Version: 0.0.0.9000
 Authors@R: 
     person(given = "Resul",
            family = "Akay",
            role = c("aut", "cre"),
            email = "resulakay1@gmail.com")
-Description: Automatic machine learning tools for microeconomic analysis
+Description: This package aims to automatize the
+    hyperparameter selection of catboost model using Bayesian
+    Optimization.
 License: Apache License (>= 2.0)
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Imports: 
-    mlrMBO,
-    ggplot2,
-    smoof,
-    tibble,
-    lifecycle,
-    ParamHelpers
+    lifecycle
 RdMacros: lifecycle
