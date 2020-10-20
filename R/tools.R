@@ -8,9 +8,9 @@
 #' @author Resul Akay
 #' 
 #' @examples 
-#' 
+#' \dont{
 #' get_var_imp(fit)
-#' 
+#' }
 #' @export
 get_var_imp <- function(object){
   
@@ -36,11 +36,11 @@ get_var_imp <- function(object){
 #' @author Resul Akay
 #' 
 #' @examples 
-#' 
+#' \dontrun{
 #' varimp <- get_var_imp(fit)
 #' 
 #' plot.varimp(varimp)
-#' 
+#' }
 #' @export
 
 plot.varimp <- function(varimp){
@@ -48,5 +48,5 @@ plot.varimp <- function(varimp){
 }
 
 
-
+`%notin%` <- Negate(`%in%`)
 

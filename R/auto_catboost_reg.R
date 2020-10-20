@@ -1,3 +1,52 @@
+#' Automatic model tununig using Bayesian optimazation
+#' 
+#' @description 
+#' 
+#' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
+#' Automatic model tununig using Bayesian optimazation
+#' @param data Input data 
+#' @param label_col_name Depandent variable names, as a string
+#' @param cat_features Name of the categorical variables
+#' @param has_time Boolean, does data have time con
+#' @param fold_count Number of cross-validation folds
+#' @param type The type of cross-validation
+#' @param partition_random_seed The random seed used for splitting pool into folds.
+#' @param shuffle Shuffle the dataset objects before splitting into folds.
+#' @param stratified Perform stratified sampling. 
+#' @param early_stopping_rounds Activates Iter overfitting detector with 
+#' od_wait set to early_stopping_rounds.
+#' @param iterations The maximum number of trees that can be built when solving 
+#' machine learning problems.When using other parameters that limit the number 
+#' of iterations, the final number of trees may be less than the number 
+#' specified in this parameter. Default value: 1000
+#' @param learning_rate The learning rate. Used for reducing the gradient step. 
+#' Default value: 0.03
+#' @param l2_leaf_reg L2 regularization coefficient. Used for leaf value 
+#' calculation. Any positive values are allowed. Default value: 3
+#'
+#' @param depth Depth of the tree. The value can be any integer up to 16. 
+#' It is recommended to use values in the range [1; 10]. Default value: 6
+#'
+#' @param bagging_temperature Controls intensity of Bayesian bagging. 
+#' The higher the temperature the more aggressive bagging is. 
+#' Typical values are in the range [0, 1] (0 is for no bagging). 
+#' Possible values are in the range [0, +∞). Default value: 1
+#'
+#' @param rsm Random subspace method. 
+#' The percentage of features to use at each iteration of building trees. 
+#' At each iteration, features are selected over again at random. 
+#' The value must be in the range [0;1]. Default value: 1
+#'
+#' @param border_count Maximum number of borders used in target binarization 
+#' for categorical features that need it. If TargetBorderCount is 
+#' specified in 'simple_ctr', 'combinations_ctr' or 'per_feature_ctr' option 
+#' it overrides this value. Default value: 1
+#' @param bo_iters Maximum iteration for Bayesian optimazation.Default value: 10
+#' @author Resul Akay
+#' @examples 
+#' \dontrun{
+#' to do..
+#' }
 #' @import ParamHelpers
 #' @import mlrMBO
 #' @import smoof

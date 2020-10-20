@@ -16,9 +16,9 @@ A data frame class of \code{varimp, data.frame)}
 \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
 }
 \examples{
-
+\dont{
 get_var_imp(fit)
-
+}
 }
 \author{
 Resul Akay

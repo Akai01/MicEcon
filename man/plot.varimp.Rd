@@ -16,11 +16,11 @@ variable importance plot
 \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
 }
 \examples{
-
+\dontrun{
 varimp <- get_var_imp(fit)
 
 plot.varimp(varimp)
-
+}
 }
 \author{
 Resul Akay

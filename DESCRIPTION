@@ -5,8 +5,7 @@ Authors@R:
     person(given = "Resul",
            family = "Akay",
            role = c("aut", "cre"),
-           email = "resulakay1@gmail.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+           email = "resulakay1@gmail.com")
 Description: Automatic machine learning tools for microeconomic analysis
 License: Apache License (>= 2.0)
 Encoding: UTF-8
@@ -18,5 +17,6 @@ Imports:
     ggplot2,
     smoof,
     tibble,
-    lifecycle
+    lifecycle,
+    ParamHelpers
 RdMacros: lifecycle
