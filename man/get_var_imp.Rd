@@ -16,7 +16,7 @@ A data frame class of \code{varimp, data.frame)}
 \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
 }
 \examples{
-\dont{
+\dontrun{
 get_var_imp(fit)
 }
 }

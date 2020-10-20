@@ -8,7 +8,7 @@
 #' @author Resul Akay
 #' 
 #' @examples 
-#' \dont{
+#' \dontrun{
 #' get_var_imp(fit)
 #' }
 #' @export
