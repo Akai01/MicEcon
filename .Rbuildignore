@@ -3,3 +3,4 @@
 ^LICENSE\.md$
 ^README\.Rmd$
 ^\.gitlab-ci\.yml$
+^\.travis\.yml$
