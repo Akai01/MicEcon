@@ -1,6 +1,6 @@
 Package: MicEcon
 Title: Automatic hyperparameter selection of the catboost mode
-Version: 0.0.0.9000
+Version: 0.0.1
 Authors@R: 
     person(given = "Resul",
            family = "Akay",
