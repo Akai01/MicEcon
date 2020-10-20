@@ -20,6 +20,5 @@ Imports:
     ParamHelpers (>= 1.14),
     tibble (>= 3.0.4),
     ggplot2 (>= 3.3.2),
-    smoof (>= 1.6.0.2),
     dplyr
 RdMacros: lifecycle

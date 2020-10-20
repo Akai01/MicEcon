@@ -80,7 +80,6 @@
 #' }
 #' @import ParamHelpers
 #' @import mlrMBO
-#' @import smoof
 #' @importFrom dplyr select
 #' @export
 auto_catboost_reg <- function(data,
