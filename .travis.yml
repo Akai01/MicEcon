@@ -2,6 +2,3 @@
 
 language: R
 cache: packages
-addons:
-  apt:
-    packages: libgsl0-dev
