@@ -15,5 +15,11 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Imports: 
-    lifecycle
+    lifecycle (>= 0.2.0),
+    mlrMBO (>= 1.1.4),
+    ParamHelpers (>= 1.14),
+    tibble (>= 3.0.4),
+    ggplot2 (>= 3.3.2),
+    smoof (>= 1.6.0.2),
+    dplyr
 RdMacros: lifecycle

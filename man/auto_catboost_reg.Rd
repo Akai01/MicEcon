@@ -22,6 +22,7 @@ auto_catboost_reg(
   bagging_temperature = list(lower = 0, upper = 100),
   rsm = list(lower = 0, upper = 1),
   border_count = list(lower = 1, upper = 254),
+  logging_level = "Silent",
   bo_iters = 10
 )
 }
@@ -59,22 +60,25 @@ Default value: 0.03}
 calculation. Any positive values are allowed. Default value: 3}
 
 \item{depth}{Depth of the tree. The value can be any integer up to 16.
-It is recommended to use values in the range \link{1; 10}. Default value: 6}
+It is recommended to use values in the range \code{[1; 10]}. Default value: 6}
 
 \item{bagging_temperature}{Controls intensity of Bayesian bagging.
 The higher the temperature the more aggressive bagging is.
-Typical values are in the range \link{0, 1} (0 is for no bagging).
-Possible values are in the range [0, +∞). Default value: 1}
+Typical values are in the range \code{[0, 1]} (0 is for no bagging).
+Possible values are in the range \code{0<= < +∞)}. Default value: 1}
 
 \item{rsm}{Random subspace method.
 The percentage of features to use at each iteration of building trees.
 At each iteration, features are selected over again at random.
-The value must be in the range \link{0;1}. Default value: 1}
+The value must be in the range \code{[0;1]}. Default value: 1}
 
 \item{border_count}{Maximum number of borders used in target binarization
 for categorical features that need it. If TargetBorderCount is
 specified in 'simple_ctr', 'combinations_ctr' or 'per_feature_ctr' option
 it overrides this value. Default value: 1}
+
+\item{logging_level}{Possible values: 'Silent', 'Verbose', 'Info', 'Debug'
+Default value: 'Silent'}
 
 \item{bo_iters}{Maximum iteration for Bayesian optimazation.Default value: 10}
 }
@@ -84,7 +88,35 @@ Automatic model tununig using Bayesian optimazation
 }
 \examples{
 \dontrun{
-to do..
+# A toy example
+
+data(iris, package = "datasets")
+
+fit <- auto_catboost_reg(
+  iris,
+  label_col_name = "Petal.Length",
+  cat_features = "Species",
+  has_time = FALSE,
+  fold_count = 3,
+  type = "Classical",
+  partition_random_seed = 0,
+  shuffle = TRUE,
+  stratified = FALSE,
+  early_stopping_rounds = NULL,
+  iterations = list(lower = 100, upper = 110),
+  learning_rate = list(lower = 0.001, upper = 0.05),
+  l2_leaf_reg = list(lower = 0, upper = 5),
+  depth = list(lower = 1, upper = 10),
+  bagging_temperature = list(lower = 0, upper = 100),
+  rsm = list(lower = 0, upper = 1),
+  border_count = list(lower = 1, upper = 254),
+  bo_iters = 2
+)
+
+
+varimp <- get_var_imp(fit$model)
+
+plot_varimp(varimp)
 }
 }
 \author{

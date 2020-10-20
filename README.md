@@ -1,0 +1,72 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# MicEcon
+
+<!-- badges: start -->
+
+[![CRAN
+status](https://www.r-pkg.org/badges/version/MicEcon)](https://CRAN.R-project.org/package=MicEcon)
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![Travis build
+status](https://travis-ci.com/Akai01/MicEcon.svg?branch=master)](https://travis-ci.com/Akai01/MicEcon)
+<!-- badges: end -->
+
+The goal of MicEcon is to …
+
+## Installation
+
+``` r
+if(!require(devtools)){
+install.packages("devtools")
+}
+
+if(!require(catboost)){
+devtools::install_github('catboost/catboost', subdir = 'catboost/R-package')
+}
+
+devtools::install_github("Akai01/MicEcon")
+```
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+``` r
+# A toy example
+
+library(MicEcon)
+
+data(iris, package = "datasets")
+
+fit <- auto_catboost_reg(
+  iris,
+  label_col_name = "Petal.Length",
+  cat_features = "Species",
+  has_time = FALSE,
+  fold_count = 3,
+  type = "Classical",
+  partition_random_seed = 0,
+  shuffle = TRUE,
+  stratified = FALSE,
+  early_stopping_rounds = NULL,
+  iterations = list(lower = 100, upper = 110),
+  learning_rate = list(lower = 0.001, upper = 0.05),
+  l2_leaf_reg = list(lower = 0, upper = 5),
+  depth = list(lower = 1, upper = 10),
+  bagging_temperature = list(lower = 0, upper = 100),
+  rsm = list(lower = 0, upper = 1),
+  border_count = list(lower = 1, upper = 254),
+   logging_level = 'Silent',
+  bo_iters = 2
+)
+#> Loading required namespace: catboost
+
+
+varimp <- get_var_imp(fit$model)
+
+plot_varimp(varimp)
+```
+
+<img src="man/figures/README-example-1.png" width="100%" />
