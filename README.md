@@ -9,8 +9,6 @@
 status](https://www.r-pkg.org/badges/version/MicEcon)](https://CRAN.R-project.org/package=MicEcon)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![Travis build
-status](https://travis-ci.com/Akai01/MicEcon.svg?branch=master)](https://travis-ci.com/Akai01/MicEcon)
 <!-- badges: end -->
 
 The goal of MicEcon is to …
