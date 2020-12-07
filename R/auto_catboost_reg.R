@@ -44,7 +44,8 @@
 #' @param logging_level Possible values: 'Silent', 'Verbose', 'Info', 'Debug'
 #' Default value: 'Silent'
 #'
-#' @param bo_iters Maximum iteration for Bayesian optimazation.Default value: 10
+#' @param bo_iters Maximum iteration for Bayesian optimization.Default value: 10
+#' @param init_design Length of the initial design
 #' @author Resul Akay
 #' @examples
 #' \dontrun{
@@ -100,11 +101,12 @@ auto_catboost_reg <- function(x,
                               rsm = list(lower = 0,   upper = 1),
                               border_count = list(lower = 1,   upper = 254),
                               logging_level = 'Silent',
-                              bo_iters = 10){
+                              bo_iters = 10,
+                              init_design = 20){
 
   catboost2 <- loadNamespace(package = "catboost")
 
-  obj.fun  <- smoof::makeSingleObjectiveFunction(
+  objective_function  <- smoof::makeSingleObjectiveFunction(
     name = "catboost",
     fn =   function(par){
 
@@ -152,24 +154,27 @@ auto_catboost_reg <- function(x,
 
  learn_pool <- catboost2$catboost.load_pool(data = x, label = y , cat_features = cat_features)
 
-  control = makeMBOControl()
-  control = setMBOControlTermination(control, iters = bo_iters)
+ des <- ParamHelpers::generateDesign(
+   n= init_design,
+   par.set = ParamHelpers::getParamSet(objective_function),
+   fun = lhs::randomLHS)
 
-  if(logging_level=='Verbose'){
-    show_info <- TRUE
-  } else {
-    show_info <- FALSE
-  }
+ control = makeMBOControl()
+ control = setMBOControlTermination(control, iters = bo_iters)
+ show_info <- FALSE
+ if(verbose != "Silent"){
+   show_info <- TRUE
+ }
+ mlrmbo_result = mbo(fun = objective_function,
+                     design = des,
+                     control = control,
+                     show.info = show_info)
 
- BO = suppressWarnings(mbo(fun = obj.fun,
-           control = control,
-           show.info = show_info))
-
-  params <- BO$x
+  params <- mlrmbo_result$x
 
   params[["logging_level"]] <- logging_level
 
   model_final <- catboost2$catboost.train(learn_pool = learn_pool, params = params)
 
-  return(list("model"= model_final, "BO" = BO))
+  return(list("model"= model_final, "mlrmbo_result" = mlrmbo_result))
 }

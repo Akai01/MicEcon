@@ -23,7 +23,8 @@ auto_catboost_reg(
   rsm = list(lower = 0, upper = 1),
   border_count = list(lower = 1, upper = 254),
   logging_level = "Silent",
-  bo_iters = 10
+  bo_iters = 10,
+  init_design = 20
 )
 }
 \arguments{
@@ -80,7 +81,9 @@ it overrides this value. Default value: 1}
 \item{logging_level}{Possible values: 'Silent', 'Verbose', 'Info', 'Debug'
 Default value: 'Silent'}
 
-\item{bo_iters}{Maximum iteration for Bayesian optimazation.Default value: 10}
+\item{bo_iters}{Maximum iteration for Bayesian optimization.Default value: 10}
+
+\item{init_design}{Length of the initial design}
 }
 \description{
 \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
