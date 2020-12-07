@@ -5,8 +5,8 @@
 \title{Automatic model tununig using Bayesian optimazation}
 \usage{
 auto_catboost_reg(
-  data,
-  label_col_name = NULL,
+  x,
+  y,
   cat_features = NULL,
   has_time = FALSE,
   fold_count = 10,
@@ -27,9 +27,9 @@ auto_catboost_reg(
 )
 }
 \arguments{
-\item{data}{Input data}
+\item{x}{Independent variables (features)}
 
-\item{label_col_name}{Depandent variable names, as a string}
+\item{y}{Dependent variable}
 
 \item{cat_features}{Name of the categorical variables}
 
@@ -45,7 +45,7 @@ auto_catboost_reg(
 
 \item{stratified}{Perform stratified sampling.}
 
-\item{early_stopping_rounds}{Activates Iter overfitting detector with
+\item{early_stopping_rounds}{Activates Iter over fitting detector with
 od_wait set to early_stopping_rounds.}
 
 \item{iterations}{The maximum number of trees that can be built when solving
@@ -84,7 +84,7 @@ Default value: 'Silent'}
 }
 \description{
 \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
-Automatic model tununig using Bayesian optimazation
+Automatic model tuning using Bayesian optimization
 }
 \examples{
 \dontrun{

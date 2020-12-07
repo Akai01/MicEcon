@@ -3,9 +3,9 @@
 #' @description
 #'
 #' \Sexpr[results=rd, stage=render]{lifecycle::badge("experimental")}
-#' Automatic model tununig using Bayesian optimazation
-#' @param data Input data
-#' @param label_col_name Depandent variable names, as a string
+#' Automatic model tuning using Bayesian optimization
+#' @param x Independent variables (features)
+#' @param y Dependent variable
 #' @param cat_features Name of the categorical variables
 #' @param has_time Boolean, does data have time con
 #' @param fold_count Number of cross-validation folds
@@ -13,7 +13,7 @@
 #' @param partition_random_seed The random seed used for splitting pool into folds.
 #' @param shuffle Shuffle the dataset objects before splitting into folds.
 #' @param stratified Perform stratified sampling.
-#' @param early_stopping_rounds Activates Iter overfitting detector with
+#' @param early_stopping_rounds Activates Iter over fitting detector with
 #' od_wait set to early_stopping_rounds.
 #' @param iterations The maximum number of trees that can be built when solving
 #' machine learning problems.When using other parameters that limit the number
@@ -82,43 +82,43 @@
 #' @import mlrMBO
 #' @importFrom dplyr select
 #' @export
-auto_catboost_reg <- function(data,
-                           label_col_name = NULL,
-                           cat_features = NULL,
-                           has_time = FALSE,
-                           fold_count = 10,
-                           type = "Classical",
-                           partition_random_seed = 0,
-                           shuffle = TRUE,
-                           stratified = FALSE,
-                           early_stopping_rounds = NULL,
-                           iterations = list(lower = 500, upper = 1000),
-                           learning_rate = list(lower = 0.001, upper = 0.05),
-                           l2_leaf_reg = list(lower = 0,     upper = 5),
-                           depth = list(lower= 1,      upper = 10),
-                           bagging_temperature = list(lower= 0,      upper = 100),
-                           rsm = list(lower = 0,   upper = 1),
-                           border_count = list(lower = 1,   upper = 254),
-                           logging_level = 'Silent',
-                           bo_iters = 10){
+auto_catboost_reg <- function(x,
+                              y,
+                              cat_features = NULL,
+                              has_time = FALSE,
+                              fold_count = 10,
+                              type = "Classical",
+                              partition_random_seed = 0,
+                              shuffle = TRUE,
+                              stratified = FALSE,
+                              early_stopping_rounds = NULL,
+                              iterations = list(lower = 500, upper = 1000),
+                              learning_rate = list(lower = 0.001, upper = 0.05),
+                              l2_leaf_reg = list(lower = 0,     upper = 5),
+                              depth = list(lower= 1,      upper = 10),
+                              bagging_temperature = list(lower= 0,      upper = 100),
+                              rsm = list(lower = 0,   upper = 1),
+                              border_count = list(lower = 1,   upper = 254),
+                              logging_level = 'Silent',
+                              bo_iters = 10){
 
   catboost2 <- loadNamespace(package = "catboost")
 
   obj.fun  <- smoof::makeSingleObjectiveFunction(
     name = "catboost",
-    fn =   function(x){
+    fn =   function(par){
 
       cv <- catboost2$catboost.cv(pool = learn_pool,
                         params = list(
                           logging_level = logging_level,
-                          iterations =             x["iterations"],
-                          depth =                  x["depth"],
-                          learning_rate =          x["learning_rate"],
-                          rsm =                    x["rsm"],
-                          l2_leaf_reg =            x["l2_leaf_reg"],
+                          iterations =             par["iterations"],
+                          depth =                  par["depth"],
+                          learning_rate =          par["learning_rate"],
+                          rsm =                    par["rsm"],
+                          l2_leaf_reg =            par["l2_leaf_reg"],
                           has_time =               has_time,
-                          bagging_temperature =    x["bagging_temperature"],
-                          border_count =           x["border_count"]),
+                          bagging_temperature =    par["bagging_temperature"],
+                          border_count =           par["border_count"]),
                         fold_count = fold_count,
                         type = type,
                         partition_random_seed = partition_random_seed,
@@ -149,11 +149,8 @@ auto_catboost_reg <- function(data,
     minimize = FALSE
   )
 
- learn_pool <- as.data.frame(data)
 
- learn_pool <- catboost2$catboost.load_pool(dplyr::select(learn_pool, -c(paste(label_col_name))),
-            label = as.matrix(dplyr::select(learn_pool, paste(label_col_name))),
-            cat_features = cat_features)
+ learn_pool <- catboost2$catboost.load_pool(data = x, label = y , cat_features = cat_features)
 
   control = makeMBOControl()
   control = setMBOControlTermination(control, iters = bo_iters)
@@ -168,15 +165,11 @@ auto_catboost_reg <- function(data,
            control = control,
            show.info = show_info))
 
-  learn_pool_final <-  catboost2$catboost.load_pool(dplyr::select(data,-c(paste(label_col_name))),
-                  label = as.matrix(dplyr::select(data, paste(label_col_name))),
-                  cat_features = cat_features)
-
   params <- BO$x
 
   params[["logging_level"]] <- logging_level
 
-  model_final <- catboost2$catboost.train(learn_pool = learn_pool_final, params = params)
+  model_final <- catboost2$catboost.train(learn_pool = learn_pool, params = params)
 
   return(list("model"= model_final, "BO" = BO))
 }
