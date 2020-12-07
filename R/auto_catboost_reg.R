@@ -102,13 +102,13 @@ auto_catboost_reg <- function(data,
                            logging_level = 'Silent',
                            bo_iters = 10){
 
-  requireNamespace("catboost")
+  catboost2 <- loadNamespace(package = "catboost")
 
   obj.fun  <- smoof::makeSingleObjectiveFunction(
     name = "catboost",
     fn =   function(x){
 
-      cv <- catboost::catboost.cv(pool = learn_pool,
+      cv <- catboost2$catboost.cv(pool = learn_pool,
                         params = list(
                           logging_level = logging_level,
                           iterations =             x["iterations"],
@@ -151,7 +151,7 @@ auto_catboost_reg <- function(data,
 
  learn_pool <- as.data.frame(data)
 
- learn_pool <- catboost::catboost.load_pool(dplyr::select(learn_pool, -c(paste(label_col_name))),
+ learn_pool <- catboost2$catboost.load_pool(dplyr::select(learn_pool, -c(paste(label_col_name))),
             label = as.matrix(dplyr::select(learn_pool, paste(label_col_name))),
             cat_features = cat_features)
 
@@ -168,7 +168,7 @@ auto_catboost_reg <- function(data,
            control = control,
            show.info = show_info))
 
-  learn_pool_final <-  catboost::catboost.load_pool(dplyr::select(data,-c(paste(label_col_name))),
+  learn_pool_final <-  catboost2$catboost.load_pool(dplyr::select(data,-c(paste(label_col_name))),
                   label = as.matrix(dplyr::select(data, paste(label_col_name))),
                   cat_features = cat_features)
 
@@ -176,7 +176,7 @@ auto_catboost_reg <- function(data,
 
   params[["logging_level"]] <- logging_level
 
-  model_final <- catboost::catboost.train(learn_pool = learn_pool_final, params = params)
+  model_final <- catboost2$catboost.train(learn_pool = learn_pool_final, params = params)
 
   return(list("model"= model_final, "BO" = BO))
 }

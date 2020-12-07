@@ -13,9 +13,9 @@
 #' }
 #' @export
 get_var_imp <- function(object){
-
+  catboost2 <- loadNamespace(package = "catboost")
   varimp <- tibble::rownames_to_column(
-    data.frame(catboost::catboost.get_feature_importance(object)),
+    data.frame(catboost2$catboost.get_feature_importance(object)),
   "variables")
 
   colnames(varimp) <- c("variables", "varimp")
@@ -44,7 +44,7 @@ get_var_imp <- function(object){
 #' @export
 
 plot_varimp <- function(varimp){
-  ggplot(varimp, aes(y = variables, x = varimp)) + geom_col()
+  ggplot(varimp, aes(y = .data$variables, x = varimp)) + geom_col()
 }
 
 
