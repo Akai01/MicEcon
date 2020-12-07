@@ -41,7 +41,7 @@
 #' for categorical features that need it. If TargetBorderCount is
 #' specified in 'simple_ctr', 'combinations_ctr' or 'per_feature_ctr' option
 #' it overrides this value. Default value: 1
-#' @param logging_level Possible values: 'Silent', 'Verbose', 'Info', 'Debug'
+#' @param verbose Possible values: 'Silent', 'Verbose', 'Info', 'Debug'
 #' Default value: 'Silent'
 #'
 #' @param bo_iters Maximum iteration for Bayesian optimization.Default value: 10
@@ -100,7 +100,7 @@ auto_catboost_reg <- function(x,
                               bagging_temperature = list(lower= 0,      upper = 100),
                               rsm = list(lower = 0,   upper = 1),
                               border_count = list(lower = 1,   upper = 254),
-                              logging_level = 'Silent',
+                              verbose = 'Silent',
                               bo_iters = 10,
                               init_design = 20){
 
@@ -112,7 +112,7 @@ auto_catboost_reg <- function(x,
 
       cv <- catboost2$catboost.cv(pool = learn_pool,
                         params = list(
-                          logging_level = logging_level,
+                          logging_level = verbose,
                           iterations =             par["iterations"],
                           depth =                  par["depth"],
                           learning_rate =          par["learning_rate"],
@@ -172,7 +172,7 @@ auto_catboost_reg <- function(x,
 
   params <- mlrmbo_result$x
 
-  params[["logging_level"]] <- logging_level
+  params[["logging_level"]] <- verbose
 
   model_final <- catboost2$catboost.train(learn_pool = learn_pool, params = params)
 

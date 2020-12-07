@@ -22,7 +22,7 @@ auto_catboost_reg(
   bagging_temperature = list(lower = 0, upper = 100),
   rsm = list(lower = 0, upper = 1),
   border_count = list(lower = 1, upper = 254),
-  logging_level = "Silent",
+  verbose = "Silent",
   bo_iters = 10,
   init_design = 20
 )
@@ -78,7 +78,7 @@ for categorical features that need it. If TargetBorderCount is
 specified in 'simple_ctr', 'combinations_ctr' or 'per_feature_ctr' option
 it overrides this value. Default value: 1}
 
-\item{logging_level}{Possible values: 'Silent', 'Verbose', 'Info', 'Debug'
+\item{verbose}{Possible values: 'Silent', 'Verbose', 'Info', 'Debug'
 Default value: 'Silent'}
 
 \item{bo_iters}{Maximum iteration for Bayesian optimization.Default value: 10}
