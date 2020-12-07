@@ -27,5 +27,5 @@ Imports:
     smoof,
     catboost (>= 0.24.3)
 RdMacros: lifecycle
-Remotes:  
-    catboost/catboost
+Additional_repositories:
+        https://github.com/catboost/catboost/tree/master/catboost/R-package
