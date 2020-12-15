@@ -41,57 +41,52 @@
 #' @param k An integer to specify the number of folds.
 #' @param \dots Other parameters passed to catboost.train's param argument.
 #' @author Resul Akay
+#' @source \url{https://github.com/Akai01/MicEcon}
+#' @references
+#' \url{https://github.com/Akai01/MicEcon}
+#'
+#' W. Powell and I. Ryzhov (2012), Optimal Learning.
+#'
 #' @examples
 #' \dontrun{
 #' # A toy example
-#'
 #' data(iris, package = "datasets")
 #'
-#' fit <- auto_catboost_reg(
-#'   iris,
-#'   label_col_name = "Petal.Length",
-#'   cat_features = "Species",
-#'   has_time = FALSE,
-#'   fold_count = 3,
-#'   type = "Classical",
-#'   partition_random_seed = 0,
-#'   shuffle = TRUE,
-#'   stratified = FALSE,
-#'   early_stopping_rounds = NULL,
-#'   iterations = list(lower = 100, upper = 110),
-#'   learning_rate = list(lower = 0.001, upper = 0.05),
-#'   l2_leaf_reg = list(lower = 0, upper = 5),
-#'   depth = list(lower = 1, upper = 10),
-#'   bagging_temperature = list(lower = 0, upper = 100),
-#'   rsm = list(lower = 0, upper = 1),
-#'   border_count = list(lower = 1, upper = 254),
-#'   bo_iters = 2
-#' )
+#' y <- iris$Petal.Length
 #'
+#' x <- iris
 #'
-#' varimp <- get_var_imp(fit$model)
+#' x$Petal.Length <- NULL
 #'
-#' plot_varimp(varimp)
+#' fit <- auto_catboost( x = x, y = y,
+#'                       iterations = list(lower = 10, upper = 11),
+#'                       learning_rate = list(lower = 0.001, upper = 0.05),
+#'                       l2_leaf_reg = list(lower = 0, upper = 5),
+#'                       depth = list(lower = 1, upper = 10),
+#'                       bagging_temperature = list(lower = 0, upper = 100),
+#'                       rsm = list(lower = 0, upper = 1),
+#'                       border_count = list(lower = 1, upper = 254),
+#'                       bo_iters = 2, verbose = "Verbose")
 #' }
 #' @import ParamHelpers
 #' @import mlrMBO
 #' @importFrom dplyr select
 #' @export
-auto_catboost_reg2 <- function(x,
-                              y,
-                              cat_features = NULL,
-                              iterations = list(lower = 500, upper = 1000),
-                              learning_rate = list(lower = 0.001, upper = 0.05),
-                              l2_leaf_reg = list(lower = 0,     upper = 5),
-                              depth = list(lower= 1,      upper = 10),
-                              bagging_temperature = list(lower= 0, upper = 100),
-                              rsm = list(lower = 0,   upper = 1),
-                              border_count = list(lower = 1,   upper = 254),
-                              verbose = 'Silent',
-                              k = 6,
-                              bo_iters = 10,
-                              init_design = 20,
-                              validation_error_metric = "RMSE", ...){
+auto_catboost <- function(x,
+                          y,
+                          cat_features = NULL,
+                          iterations = list(lower = 500, upper = 1000),
+                          learning_rate = list(lower = 0.001, upper = 0.05),
+                          l2_leaf_reg = list(lower = 0,     upper = 5),
+                          depth = list(lower= 1,      upper = 10),
+                          bagging_temperature = list(lower= 0, upper = 100),
+                          rsm = list(lower = 0,   upper = 1),
+                          border_count = list(lower = 1,   upper = 254),
+                          verbose = 'Silent',
+                          k = 6,
+                          bo_iters = 10,
+                          init_design = 20,
+                          validation_error_metric = "RMSE", ...){
 
   catboost2 <- loadNamespace(package = "catboost")
 
@@ -99,18 +94,18 @@ auto_catboost_reg2 <- function(x,
     name = "catboost",
     fn =   function(par){
 
-      acc <- catboost_cv(x = x, y = y, cat_features = cat_features,
-                        params = list(
-                          logging_level = verbose,
-                          iterations =             par["iterations"],
-                          depth =                  par["depth"],
-                          learning_rate =          par["learning_rate"],
-                          rsm =                    par["rsm"],
-                          l2_leaf_reg =            par["l2_leaf_reg"],
-                          bagging_temperature =    par["bagging_temperature"],
-                          border_count =           par["border_count"],
-                          ...),
-                        k = k, verbose = verbose)
+      acc <- MicEcon:::catboost_cv(x = x, y = y, cat_features = cat_features,
+                         params = list(
+                           logging_level = verbose,
+                           iterations =             par["iterations"],
+                           depth =                  par["depth"],
+                           learning_rate =          par["learning_rate"],
+                           rsm =                    par["rsm"],
+                           l2_leaf_reg =            par["l2_leaf_reg"],
+                           bagging_temperature =    par["bagging_temperature"],
+                           border_count =           par["border_count"],
+                           ...),
+                         k = k, verbose = verbose)
 
       a <- - mean(acc[,validation_error_metric])
       if(verbose != "Silent"){
@@ -159,7 +154,7 @@ auto_catboost_reg2 <- function(x,
                       show.info = show_info)
 
   learn_pool_final <- catboost2$catboost.load_pool(data = x, label = y,
-                                             cat_features = cat_features)
+                                                   cat_features = cat_features)
 
   params <- mlrmbo_result[["x"]]
   params[["logging_level"]] <- verbose
@@ -167,5 +162,9 @@ auto_catboost_reg2 <- function(x,
   model_final <- catboost2$catboost.train(learn_pool = learn_pool_final,
                                           params = params)
 
-  return(list("model"= model_final, "mlrmbo_result" = mlrmbo_result))
+  object <- list("model"= list("model" = model_final,
+                               "cat_features" = cat_features),
+                 "mlrmbo_result" = mlrmbo_result)
+  class(object) <- "auto_catboost"
+  return(object)
 }
