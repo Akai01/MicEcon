@@ -94,7 +94,7 @@ auto_catboost <- function(x,
     name = "catboost",
     fn =   function(par){
 
-      acc <- MicEcon:::catboost_cv(x = x, y = y, cat_features = cat_features,
+      acc <- catboost_cv(x = x, y = y, cat_features = cat_features,
                          params = list(
                            logging_level = verbose,
                            iterations =             par["iterations"],

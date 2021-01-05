@@ -25,7 +25,7 @@ Imports:
     plyr,
     lhs,
     smoof,
-    catboost (>= 0.24.3)
+    catboost (<= 0.24.3)
 RdMacros: lifecycle
 Additional_repositories:
         https://github.com/catboost/catboost/tree/master/catboost/R-package
