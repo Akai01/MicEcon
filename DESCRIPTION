@@ -20,10 +20,10 @@ Imports:
     ParamHelpers (>= 1.14),
     tibble (>= 3.0.4),
     ggplot2 (>= 3.3.2),
-    dplyr,
-    caret,
-    plyr,
-    lhs,
-    smoof,
+    dplyr (>= 1.0.2),
+    caret (>= 6.0.86),
+    plyr (>= 1.8.6),
+    lhs (>= 1.1.1),
+    smoof (>= 1.6.0.2),
     catboost (>= 0.24.3)
 RdMacros: lifecycle
